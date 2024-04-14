@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { add } from "../redux/citiesSlice";
 
-function CardForm({ addCity }) {
+function CardForm() {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -30,7 +34,7 @@ function CardForm({ addCity }) {
       isVisited: false,
     });
 
-    addCity(city);
+    dispatch(add(city));
   };
   return (
     <form onSubmit={handleSubmit} className="form-input-card">

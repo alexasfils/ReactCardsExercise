@@ -71,8 +71,6 @@ button:focus-visible {
   display: flex;
 gap: 10px;
 flex-wrap: wrap;
-
-  
 }
 
 .rounded-md{
@@ -80,9 +78,14 @@ flex-wrap: wrap;
   flex-direction: column;
   background-color: black;
   width: 23%;
+  min-width: 295px;
   height: auto;
   
   border-radius: 7px;
+}
+.rounded-md:hover{
+  border: 3px solid violet;
+  
 }
 .card-texts{
   display: block;
@@ -114,7 +117,8 @@ img{
 .form-input-card{
 display: flex;
 flex-direction: column;
-align-items: start;
+align-items: center;
+justify-content: center;
 gap: 5px;
 margin-bottom: 10px;
 padding: 10px;

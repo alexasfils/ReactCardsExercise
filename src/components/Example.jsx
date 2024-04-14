@@ -1,29 +1,25 @@
-import { useState, useEffect } from "react";
+import { increment, decrement } from "../redux/counterSlice";
+import { useSelector, useDispatch } from "react-redux";
 
-function Example({ cities }) {
-  const [count, setCount] = useState(0);
+function Example() {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
 
-  //Definizione dell'effetto
-  useEffect(() => {
-    document.title = `Conteggio: ${count}`;
-    console.log("Entrato in useEffect");
-    // fetch("https://jsonplaceholder.typicode.com/posts/1")
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setData(data);
-    //     console.log(data);
-    //   });
-  }, [count]); // in questo caso dico a useEffect che ogni volta che (count) cambie mi devi cambiare il titolo pure.
-  //se non metto nessun array allora mi aggiorna tutto quello che accade, qualsiasi evento che accate verra aggiornato.
-  //Se metto un array vuoto allora use effect partira solo una volta quando partira l'applicazione
-
-  const handleClick = () => {
-    setCount(count + 1);
-  };
   return (
     <div>
       <p>Conteggio:{count}</p>
-      <button onClick={handleClick}>Incrementa</button>
+      <button
+        aria-label="Increment value"
+        onClick={() => dispatch(increment())}
+      >
+        Incrementa +
+      </button>
+      <button
+        aria-label="Decrement value"
+        onClick={() => dispatch(decrement())}
+      >
+        Decrementa -
+      </button>
     </div>
   );
 }
