@@ -103,6 +103,9 @@ color: #ffffff;
     color: grey;
     margin: 0;
 }
+.card-id{
+  color: red;
+}
 img{
   min-height: 180px;
   max-height: 180px;
@@ -133,4 +136,10 @@ input, textarea{
 .form-items{
   display: flex;
   flex-direction: column;
+}
+.posts{
+  display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: aliceblue;
 }

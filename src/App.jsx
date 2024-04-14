@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useReducer } from "react";
 // import reactLogo from "./assets/react.svg";
 // import viteLogo from "/vite.svg";
 import "./App.css";
@@ -20,10 +20,26 @@ import Example from "./components/Example";
 //   console.log(this.target.value);
 // }
 
+function formReducer(state, action) {
+  switch (action.type) {
+    case "CHANGE_FIELD":
+      return { ...state, [action.field]: action.value };
+    case "RESET_FORM":
+      return { name: "", email: "" };
+    default:
+      return state;
+  }
+}
+
 function App() {
   const [count, setCount] = useState(0);
   const [items, setItems] = useState([1, 2, 3]);
   // const [user, setUser] = useState({ name: "Alice", age: 30 });
+  const [data, setData] = useState([]);
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    name: "",
+    email: "",
+  });
 
   const aggiungiItem = () => {
     const nuovoItem = 4;
@@ -34,6 +50,38 @@ function App() {
   //   const updateUser = { ...user, name: "Bob" };
   //   setUser(updateUser);
   // };
+
+  const handleFieldChange = (field, value) => {
+    dispatchFormState({ type: "CHANGE_FIELD", field, value });
+  };
+
+  const resetForm = (e) => {
+    e.preventDefault();
+    dispatchFormState({ type: "RESET_FORM" });
+  };
+
+  const sendForm = (e) => {
+    e.preventDefault();
+    console.log(formState);
+  };
+
+  // useEffect(() => {
+  //   // document.title = `Conteggio: ${count}`;
+  //   // console.log("Entato in useEffect");
+  //   fetch("https://jsonplaceholder.typicode.com/users", {
+  //     method: "POST",
+  //     body: JSON.stringify({}),
+  //     headers: {
+  //       "Content-type": "application/json; charset=UTF-8",
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setData(data);
+  //       console.log(data);
+  //     });
+  // }, []);
+
   const [cities, setCities] = useState([
     {
       id: 0,
@@ -79,7 +127,7 @@ function App() {
 
   return (
     <>
-      <Example></Example>
+      <Example cities={cities}></Example>
       <CardForm addCity={addCity}></CardForm>
       <div className="card">
         {cities.map((city) => (
@@ -92,31 +140,28 @@ function App() {
             {city.description}
           </Card>
         ))}
-
-        {/* {cities
-          .filter((city) => city.isVisited)
-          .map((city) => (
-            <Card
-              key={city.id}
-              title={count}
-              isVisited={city.isVisited}
-              imgUrl={city.imgUrl}
-            >
-              {city.description}
-            </Card>
-          ))} */}
       </div>
 
-      <div className="card">
+      {/* <div className="posts">
+        {data.map((item) => (
+          <div className="rounded-md" key={item.id}>
+            <p className="card-id">userId: {item.userId}</p>
+            <h2 className="card-title"> {item.title}</h2>
+            <p className="card-content"> {item.body}</p>
+          </div>
+        ))}
+      </div> */}
+
+      {/* <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
 
-        <button onClick={aggiungiItem}>Items e {items}</button>
+        <button onClick={aggiungiItem}>Items e {items}</button> */}
 
-        {/* <button onClick={updateUserName}>Items e {}</button> */}
+      {/* <button onClick={updateUserName}>Items e {}</button> */}
 
-        {/* <button onClick={handleClick}>alert</button>
+      {/* <button onClick={handleClick}>alert</button>
         <input onChange={handleChange} />
 
         <form onSubmit={handleSubmit}>
@@ -127,7 +172,33 @@ function App() {
           <input id="cognome" name="cognome" type="text"></input>
           <button type="submit">Invia</button>
         </form> */}
-      </div>
+      {/* </div> */}
+
+      <form>
+        <div>
+          <label htmlFor="name">Nome</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formState.name}
+            onChange={(e) => handleFieldChange("name", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formState.email}
+            onChange={(e) => handleFieldChange("email", e.target.value)}
+          />
+        </div>
+        <button onClick={resetForm}>Reset</button>
+        <button onClick={sendForm}>Invia</button>
+      </form>
     </>
   );
 }
