@@ -21,7 +21,7 @@ function Card() {
             <span className="text-green-600">✔ visitata</span>
           )}
           {!cities[0].isVisited && (
-            <span className="text-red-600">❌ non visitata</span>
+            <span className="text-red-600">❌ non visitata.</span>
           )}
         </div>
         <img src={cities[0].imgUrl} className="" alt="" width="400"></img>
